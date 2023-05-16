@@ -62,5 +62,4 @@ void main(){
     insert(root ,  89); 
     insert(root ,  90); 
 
-    //printing it inorder
 }
