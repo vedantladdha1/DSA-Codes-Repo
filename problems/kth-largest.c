@@ -34,6 +34,46 @@ Node *insertNode(int key , Node *node){
     return node ; 
 }
 
+Node* MinValNode(Node *node)
+{
+    Node *current = node; 
+    while(current &&current->left != NULL )
+    {
+        current = current->left; 
+    }
+    return current ; 
+}
+
+Node *delNode(int key , Node *node){
+    if(node == NULL)
+        return node; 
+    if(node->key > key)
+        node->left = delNode(key , node->left); 
+    if(node->key < key)
+        node->right = delNode(key ,node->right) ;
+
+    else{
+        if(node->left == NULL){
+            Node*temp = node->right; 
+            free(node);
+            return temp;
+        }
+        else if(node->right == NULL)
+        {
+            Node*temp = node->left; 
+            free(node);
+            return temp;
+        }
+
+        Node *temp = MinValNode(node->right); 
+        node->key = temp->key; 
+
+        node->right = delNode(temp->key , node->right);
+
+    }
+    return node;
+}
+
 void inorder(Node*node){
     if(node != NULL){
         inorder(node->left); 
@@ -55,6 +95,7 @@ void main(){
     node = insertNode(79 , node); 
     node  = insertNode(89 , node); 
     // node = insertNode(10 , node); 
+    node = delNode(69 ,node);
     int check = NthLargest(node, 0); 
     printf("%d is the 3rd largest " , check);
 
